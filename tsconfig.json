@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "src/routes/agent/accounts/.add.lazy.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
