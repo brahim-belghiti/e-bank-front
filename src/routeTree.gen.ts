@@ -15,8 +15,8 @@ import { Route as CustomerImport } from './routes/_customer'
 import { Route as AgentImport } from './routes/_agent'
 import { Route as IndexImport } from './routes/index'
 import { Route as CustomerDashboardImport } from './routes/_customer/dashboard'
-import { Route as AgentAgentIndexImport } from './routes/_agent/agent/index'
 import { Route as CustomerTransactionsAddImport } from './routes/_customer/transactions/add'
+import { Route as AgentAgentDashboardImport } from './routes/_agent/agent/dashboard'
 import { Route as AgentAgentCustomersAddImport } from './routes/_agent/agent/customers/add'
 import { Route as AgentAgentAccountsAddImport } from './routes/_agent/agent/accounts/add'
 
@@ -42,14 +42,14 @@ const CustomerDashboardRoute = CustomerDashboardImport.update({
   getParentRoute: () => CustomerRoute,
 } as any)
 
-const AgentAgentIndexRoute = AgentAgentIndexImport.update({
-  path: '/agent/',
-  getParentRoute: () => AgentRoute,
-} as any)
-
 const CustomerTransactionsAddRoute = CustomerTransactionsAddImport.update({
   path: '/transactions/add',
   getParentRoute: () => CustomerRoute,
+} as any)
+
+const AgentAgentDashboardRoute = AgentAgentDashboardImport.update({
+  path: '/agent/dashboard',
+  getParentRoute: () => AgentRoute,
 } as any)
 
 const AgentAgentCustomersAddRoute = AgentAgentCustomersAddImport.update({
@@ -82,13 +82,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CustomerDashboardImport
       parentRoute: typeof CustomerImport
     }
+    '/_agent/agent/dashboard': {
+      preLoaderRoute: typeof AgentAgentDashboardImport
+      parentRoute: typeof AgentImport
+    }
     '/_customer/transactions/add': {
       preLoaderRoute: typeof CustomerTransactionsAddImport
       parentRoute: typeof CustomerImport
-    }
-    '/_agent/agent/': {
-      preLoaderRoute: typeof AgentAgentIndexImport
-      parentRoute: typeof AgentImport
     }
     '/_agent/agent/accounts/add': {
       preLoaderRoute: typeof AgentAgentAccountsAddImport
@@ -106,7 +106,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   AgentRoute.addChildren([
-    AgentAgentIndexRoute,
+    AgentAgentDashboardRoute,
     AgentAgentAccountsAddRoute,
     AgentAgentCustomersAddRoute,
   ]),

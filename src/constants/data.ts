@@ -15,11 +15,11 @@ const CUSTOMER_DASH_LINKS: TCustomerLinks[] = [
 ];
 
 const AGENT_DASH_LINKS: TAgentLinks[] = [
-  // {
-  //   title: "tableu de bord",
-  //   href: "/agent",
-  //   icon: "dashboard",
-  // },
+  {
+    title: "tableu de bord",
+    href: "/agent/dashboard",
+    icon: "dashboard",
+  },
   {
     title: "Ajouter nouveau client",
     href: "agent/customers/add",
