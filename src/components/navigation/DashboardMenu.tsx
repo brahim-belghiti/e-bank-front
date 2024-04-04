@@ -4,12 +4,12 @@ import { cn } from "@/lib/utils";
 import { TCustomerLinks } from "@/types/customer.type";
 import { Dispatch, SetStateAction } from "react";
 
-interface DashboardNavProps {
+interface DashboardMenuProps {
   items: TCustomerLinks[];
   setOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
-export function DashboardNav({ items, setOpen }: DashboardNavProps) {
+export function DashboardMenu({ items, setOpen }: DashboardMenuProps) {
   return (
     <nav className="grid items-start gap-2">
       {items.map((item, index) => {

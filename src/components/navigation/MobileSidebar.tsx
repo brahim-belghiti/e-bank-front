@@ -1,4 +1,4 @@
-import { DashboardNav } from "@/components/DashboardNav";
+import { DashboardMenu } from "@/components/navigation/DashboardMenu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CUSTOMER_DASH_LINKS } from "@/constants/data";
 import { MenuIcon } from "lucide-react";
@@ -18,7 +18,7 @@ export function MobileSidebar() {
               <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Overview</h2>
               <div className="space-y-1">
                 {CUSTOMER_DASH_LINKS.length > 0 && (
-                  <DashboardNav items={CUSTOMER_DASH_LINKS} setOpen={setOpen} />
+                  <DashboardMenu items={CUSTOMER_DASH_LINKS} setOpen={setOpen} />
                 )}
               </div>
             </div>

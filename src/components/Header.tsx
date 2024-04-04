@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import { MobileSidebar } from "@/components/MobileSidebar";
+import { MobileSidebar } from "@/components/navigation/MobileSidebar";
 import { Link } from "@tanstack/react-router";
-import { UserMenu } from "@/components/UserMenu";
+import { UserMenu } from "@/components/navigation/UserMenu";
 
 export default function Header() {
   return (
