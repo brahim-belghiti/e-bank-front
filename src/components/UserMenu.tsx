@@ -27,12 +27,8 @@ export function UserMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            Changer mot de passe
-          </DropdownMenuItem>
-        <DropdownMenuItem>
-          Se déconnecter
-        </DropdownMenuItem>
+        <DropdownMenuItem>Changer mot de passe</DropdownMenuItem>
+        <DropdownMenuItem>Se déconnecter</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

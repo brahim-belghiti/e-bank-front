@@ -10,7 +10,6 @@ interface DashboardNavProps {
 }
 
 export function DashboardNav({ items, setOpen }: DashboardNavProps) {
-
   return (
     <nav className="grid items-start gap-2">
       {items.map((item, index) => {

@@ -1,11 +1,7 @@
 import "./index.css";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import {
-  RouterProvider,
-  createRouter,
-  NotFoundRoute,
-} from "@tanstack/react-router";
+import { RouterProvider, createRouter, NotFoundRoute } from "@tanstack/react-router";
 import { Route as rootRoute } from "./routes/__root.tsx";
 import NotFound from "./pages/NotFound.tsx";
 // Import the generated route tree
