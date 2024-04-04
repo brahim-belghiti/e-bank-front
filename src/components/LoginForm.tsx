@@ -11,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
   FormItem,
-  FormDescription,
 } from "@/components/ui/form";
 
 export const LoginForm = () => {
@@ -52,12 +51,13 @@ export const LoginForm = () => {
                 <FormControl>
                   <Input placeholder="votre mote de passe" {...field} />
                 </FormControl>
-                <FormDescription className="text-orange-400 text-end underline"> <a href="/dashboard">mot de passe oublié</a></FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button className="w-full" type="submit">Soumettre</Button>
+          <Button className="w-full" type="submit">
+            Soumettre
+          </Button>
         </form>
       </Form>
     </div>
