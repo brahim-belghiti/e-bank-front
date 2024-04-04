@@ -27,11 +27,11 @@ export function DashboardMenu({ items, setOpen }: DashboardMenuProps) {
                 return (
                   <span
                     className={cn(
-                      "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-                      isActive ? "bg-primary text-accent" : "text-normal",
+                      "w-full flex items-center rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground",
+                      isActive ? "bg-primary text-accent" : "",
                     )}
                   >
-                    <Icon className="mr-2 h-4 w-4" />
+                    <Icon className="mr-2 min-h-4 min-w-2 max-w-4" />
                     <span>{item.title}</span>
                   </span>
                 );
