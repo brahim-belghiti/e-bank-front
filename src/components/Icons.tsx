@@ -1,7 +1,7 @@
-import { Plus, Settings, User, LayoutDashboardIcon } from "lucide-react";
+import { Settings, User, LayoutDashboardIcon, CirclePlus } from "lucide-react";
 
 export const Icons = {
-  add: Plus,
+  add: CirclePlus,
   dashboard: LayoutDashboardIcon,
   settings: Settings,
   user: User,

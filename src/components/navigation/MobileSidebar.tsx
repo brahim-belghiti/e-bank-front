@@ -1,10 +1,16 @@
 import { DashboardMenu } from "@/components/navigation/DashboardMenu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { CUSTOMER_DASH_LINKS } from "@/constants/data";
+import { TCustomerLinks } from "@/types/customer.type";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
+import logo1 from "../../assets/logo1.png";
+import { Link } from "@tanstack/react-router";
 
-export function MobileSidebar() {
+type TSidebarProps = {
+  linkItems: TCustomerLinks[];
+};
+
+export function MobileSidebar({ linkItems }: TSidebarProps) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -13,16 +19,12 @@ export function MobileSidebar() {
           <MenuIcon />
         </SheetTrigger>
         <SheetContent side="left" className="!px-0">
-          <div className="space-y-4 py-4">
-            <div className="px-3 py-2">
-              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">Overview</h2>
-              <div className="space-y-1">
-                {CUSTOMER_DASH_LINKS.length > 0 && (
-                  <DashboardMenu items={CUSTOMER_DASH_LINKS} setOpen={setOpen} />
-                )}
-              </div>
-            </div>
-          </div>
+          <Link to="/">
+            <img src={logo1} alt="company logo" className="w-8 h-auto ml-4 top-4" />
+          </Link>
+          <nav className="w-full space-y-4 py-12 px-3">
+            {linkItems.length > 0 && <DashboardMenu items={linkItems} setOpen={setOpen} />}
+          </nav>
         </SheetContent>
       </Sheet>
     </>

@@ -1,4 +1,5 @@
 import { TCustomerLinks } from "@/types/customer.type";
+import { TAgentLinks } from "@/types/agent.types";
 
 const CUSTOMER_DASH_LINKS: TCustomerLinks[] = [
   {
@@ -13,4 +14,22 @@ const CUSTOMER_DASH_LINKS: TCustomerLinks[] = [
   },
 ];
 
-export { CUSTOMER_DASH_LINKS };
+const AGENT_DASH_LINKS: TAgentLinks[] = [
+  // {
+  //   title: "tableu de bord",
+  //   href: "/agent",
+  //   icon: "dashboard",
+  // },
+  {
+    title: "Ajouter nouveau client",
+    href: "agent/customers/add",
+    icon: "add",
+  },
+  {
+    title: "Ajouter un nouveau compte bancaire",
+    href: "agent/accounts/add",
+    icon: "add",
+  },
+];
+
+export { CUSTOMER_DASH_LINKS, AGENT_DASH_LINKS };
