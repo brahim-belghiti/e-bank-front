@@ -18,7 +18,7 @@ const Home = () => {
         </section>
         <section className="h-full lg:w-3/6 w-full flex flex-col justify-center items-center gap-8">
           <h3 className="text-xl font-bold">Authentifiez-vous : </h3>
-          <LoginForm/>
+          <LoginForm />
         </section>
       </main>
     </>

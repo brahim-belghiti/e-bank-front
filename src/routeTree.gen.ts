@@ -11,43 +11,55 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as CustomerImport } from './routes/_customer'
+import { Route as AgentImport } from './routes/_agent'
 import { Route as IndexImport } from './routes/index'
-import { Route as AgentIndexImport } from './routes/agent/index'
-import { Route as customerDashboardImport } from './routes/(customer)/dashboard'
-import { Route as AgentCustomersAddImport } from './routes/agent/customers/add'
-import { Route as AgentAccountsAddImport } from './routes/agent/accounts/add'
-import { Route as customerTransactionsAddImport } from './routes/(customer)/transactions/add'
+import { Route as CustomerDashboardImport } from './routes/_customer/dashboard'
+import { Route as AgentAgentIndexImport } from './routes/_agent/agent/index'
+import { Route as CustomerTransactionsAddImport } from './routes/_customer/transactions/add'
+import { Route as AgentAgentCustomersAddImport } from './routes/_agent/agent/customers/add'
+import { Route as AgentAgentAccountsAddImport } from './routes/_agent/agent/accounts/add'
 
 // Create/Update Routes
+
+const CustomerRoute = CustomerImport.update({
+  id: '/_customer',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AgentRoute = AgentImport.update({
+  id: '/_agent',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const AgentIndexRoute = AgentIndexImport.update({
-  path: '/agent/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const customerDashboardRoute = customerDashboardImport.update({
+const CustomerDashboardRoute = CustomerDashboardImport.update({
   path: '/dashboard',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => CustomerRoute,
 } as any)
 
-const AgentCustomersAddRoute = AgentCustomersAddImport.update({
-  path: '/agent/customers/add',
-  getParentRoute: () => rootRoute,
+const AgentAgentIndexRoute = AgentAgentIndexImport.update({
+  path: '/agent/',
+  getParentRoute: () => AgentRoute,
 } as any)
 
-const AgentAccountsAddRoute = AgentAccountsAddImport.update({
-  path: '/agent/accounts/add',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const customerTransactionsAddRoute = customerTransactionsAddImport.update({
+const CustomerTransactionsAddRoute = CustomerTransactionsAddImport.update({
   path: '/transactions/add',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => CustomerRoute,
+} as any)
+
+const AgentAgentCustomersAddRoute = AgentAgentCustomersAddImport.update({
+  path: '/agent/customers/add',
+  getParentRoute: () => AgentRoute,
+} as any)
+
+const AgentAgentAccountsAddRoute = AgentAgentAccountsAddImport.update({
+  path: '/agent/accounts/add',
+  getParentRoute: () => AgentRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -58,25 +70,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/(customer)/dashboard': {
-      preLoaderRoute: typeof customerDashboardImport
+    '/_agent': {
+      preLoaderRoute: typeof AgentImport
       parentRoute: typeof rootRoute
     }
-    '/agent/': {
-      preLoaderRoute: typeof AgentIndexImport
+    '/_customer': {
+      preLoaderRoute: typeof CustomerImport
       parentRoute: typeof rootRoute
     }
-    '/(customer)/transactions/add': {
-      preLoaderRoute: typeof customerTransactionsAddImport
-      parentRoute: typeof rootRoute
+    '/_customer/dashboard': {
+      preLoaderRoute: typeof CustomerDashboardImport
+      parentRoute: typeof CustomerImport
     }
-    '/agent/accounts/add': {
-      preLoaderRoute: typeof AgentAccountsAddImport
-      parentRoute: typeof rootRoute
+    '/_customer/transactions/add': {
+      preLoaderRoute: typeof CustomerTransactionsAddImport
+      parentRoute: typeof CustomerImport
     }
-    '/agent/customers/add': {
-      preLoaderRoute: typeof AgentCustomersAddImport
-      parentRoute: typeof rootRoute
+    '/_agent/agent/': {
+      preLoaderRoute: typeof AgentAgentIndexImport
+      parentRoute: typeof AgentImport
+    }
+    '/_agent/agent/accounts/add': {
+      preLoaderRoute: typeof AgentAgentAccountsAddImport
+      parentRoute: typeof AgentImport
+    }
+    '/_agent/agent/customers/add': {
+      preLoaderRoute: typeof AgentAgentCustomersAddImport
+      parentRoute: typeof AgentImport
     }
   }
 }
@@ -85,11 +105,15 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  customerDashboardRoute,
-  AgentIndexRoute,
-  customerTransactionsAddRoute,
-  AgentAccountsAddRoute,
-  AgentCustomersAddRoute,
+  AgentRoute.addChildren([
+    AgentAgentIndexRoute,
+    AgentAgentAccountsAddRoute,
+    AgentAgentCustomersAddRoute,
+  ]),
+  CustomerRoute.addChildren([
+    CustomerDashboardRoute,
+    CustomerTransactionsAddRoute,
+  ]),
 ])
 
 /* prettier-ignore-end */
