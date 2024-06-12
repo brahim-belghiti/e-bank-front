@@ -10,110 +10,187 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as CustomerImport } from './routes/_customer'
-import { Route as AgentImport } from './routes/_agent'
-import { Route as IndexImport } from './routes/index'
-import { Route as CustomerDashboardImport } from './routes/_customer/dashboard'
-import { Route as CustomerTransactionsAddImport } from './routes/_customer/transactions/add'
-import { Route as AgentAgentDashboardImport } from './routes/_agent/agent/dashboard'
-import { Route as AgentAgentCustomersAddImport } from './routes/_agent/agent/customers/add'
-import { Route as AgentAgentAccountsAddImport } from './routes/_agent/agent/accounts/add'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as CustomerImport } from "./routes/_customer";
+import { Route as AgentImport } from "./routes/_agent";
+import { Route as IndexImport } from "./routes/index";
+import { Route as CustomerDashboardImport } from "./routes/_customer/dashboard";
+import { Route as CustomerTransactionsAddImport } from "./routes/_customer/transactions/add";
+import { Route as AgentAgentDashboardImport } from "./routes/_agent/agent/dashboard";
+import { Route as AgentAgentCustomersAddImport } from "./routes/_agent/agent/customers/add";
+import { Route as AgentAgentAccountsAddImport } from "./routes/_agent/agent/accounts/add";
 
 // Create/Update Routes
 
 const CustomerRoute = CustomerImport.update({
-  id: '/_customer',
+  id: "/_customer",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const AgentRoute = AgentImport.update({
-  id: '/_agent',
+  id: "/_agent",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const IndexRoute = IndexImport.update({
-  path: '/',
+  path: "/",
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const CustomerDashboardRoute = CustomerDashboardImport.update({
-  path: '/dashboard',
+  path: "/dashboard",
   getParentRoute: () => CustomerRoute,
-} as any)
+} as any);
 
 const CustomerTransactionsAddRoute = CustomerTransactionsAddImport.update({
-  path: '/transactions/add',
+  path: "/transactions/add",
   getParentRoute: () => CustomerRoute,
-} as any)
+} as any);
 
 const AgentAgentDashboardRoute = AgentAgentDashboardImport.update({
-  path: '/agent/dashboard',
+  path: "/agent/dashboard",
   getParentRoute: () => AgentRoute,
-} as any)
+} as any);
 
 const AgentAgentCustomersAddRoute = AgentAgentCustomersAddImport.update({
-  path: '/agent/customers/add',
+  path: "/agent/customers/add",
   getParentRoute: () => AgentRoute,
-} as any)
+} as any);
 
 const AgentAgentAccountsAddRoute = AgentAgentAccountsAddImport.update({
-  path: '/agent/accounts/add',
+  path: "/agent/accounts/add",
   getParentRoute: () => AgentRoute,
-} as any)
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/': {
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/_agent': {
-      preLoaderRoute: typeof AgentImport
-      parentRoute: typeof rootRoute
-    }
-    '/_customer': {
-      preLoaderRoute: typeof CustomerImport
-      parentRoute: typeof rootRoute
-    }
-    '/_customer/dashboard': {
-      preLoaderRoute: typeof CustomerDashboardImport
-      parentRoute: typeof CustomerImport
-    }
-    '/_agent/agent/dashboard': {
-      preLoaderRoute: typeof AgentAgentDashboardImport
-      parentRoute: typeof AgentImport
-    }
-    '/_customer/transactions/add': {
-      preLoaderRoute: typeof CustomerTransactionsAddImport
-      parentRoute: typeof CustomerImport
-    }
-    '/_agent/agent/accounts/add': {
-      preLoaderRoute: typeof AgentAgentAccountsAddImport
-      parentRoute: typeof AgentImport
-    }
-    '/_agent/agent/customers/add': {
-      preLoaderRoute: typeof AgentAgentCustomersAddImport
-      parentRoute: typeof AgentImport
-    }
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/_agent": {
+      id: "/_agent";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof AgentImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/_customer": {
+      id: "/_customer";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof CustomerImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/_customer/dashboard": {
+      id: "/_customer/dashboard";
+      path: "/dashboard";
+      fullPath: "/dashboard";
+      preLoaderRoute: typeof CustomerDashboardImport;
+      parentRoute: typeof CustomerImport;
+    };
+    "/_agent/agent/dashboard": {
+      id: "/_agent/agent/dashboard";
+      path: "/agent/dashboard";
+      fullPath: "/agent/dashboard";
+      preLoaderRoute: typeof AgentAgentDashboardImport;
+      parentRoute: typeof AgentImport;
+    };
+    "/_customer/transactions/add": {
+      id: "/_customer/transactions/add";
+      path: "/transactions/add";
+      fullPath: "/transactions/add";
+      preLoaderRoute: typeof CustomerTransactionsAddImport;
+      parentRoute: typeof CustomerImport;
+    };
+    "/_agent/agent/accounts/add": {
+      id: "/_agent/agent/accounts/add";
+      path: "/agent/accounts/add";
+      fullPath: "/agent/accounts/add";
+      preLoaderRoute: typeof AgentAgentAccountsAddImport;
+      parentRoute: typeof AgentImport;
+    };
+    "/_agent/agent/customers/add": {
+      id: "/_agent/agent/customers/add";
+      path: "/agent/customers/add";
+      fullPath: "/agent/customers/add";
+      preLoaderRoute: typeof AgentAgentCustomersAddImport;
+      parentRoute: typeof AgentImport;
+    };
   }
 }
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
+export const routeTree = rootRoute.addChildren({
   IndexRoute,
-  AgentRoute.addChildren([
+  AgentRoute: AgentRoute.addChildren({
     AgentAgentDashboardRoute,
     AgentAgentAccountsAddRoute,
     AgentAgentCustomersAddRoute,
-  ]),
-  CustomerRoute.addChildren([
+  }),
+  CustomerRoute: CustomerRoute.addChildren({
     CustomerDashboardRoute,
     CustomerTransactionsAddRoute,
-  ]),
-])
+  }),
+});
 
 /* prettier-ignore-end */
+
+/* ROUTE_MANIFEST_START
+{
+  "routes": {
+    "__root__": {
+      "filePath": "__root.tsx",
+      "children": [
+        "/",
+        "/_agent",
+        "/_customer"
+      ]
+    },
+    "/": {
+      "filePath": "index.tsx"
+    },
+    "/_agent": {
+      "filePath": "_agent.tsx",
+      "children": [
+        "/_agent/agent/dashboard",
+        "/_agent/agent/accounts/add",
+        "/_agent/agent/customers/add"
+      ]
+    },
+    "/_customer": {
+      "filePath": "_customer.tsx",
+      "children": [
+        "/_customer/dashboard",
+        "/_customer/transactions/add"
+      ]
+    },
+    "/_customer/dashboard": {
+      "filePath": "_customer/dashboard.tsx",
+      "parent": "/_customer"
+    },
+    "/_agent/agent/dashboard": {
+      "filePath": "_agent/agent/dashboard.tsx",
+      "parent": "/_agent"
+    },
+    "/_customer/transactions/add": {
+      "filePath": "_customer/transactions/add.tsx",
+      "parent": "/_customer"
+    },
+    "/_agent/agent/accounts/add": {
+      "filePath": "_agent/agent/accounts/add.tsx",
+      "parent": "/_agent"
+    },
+    "/_agent/agent/customers/add": {
+      "filePath": "_agent/agent/customers/add.tsx",
+      "parent": "/_agent"
+    }
+  }
+}
+ROUTE_MANIFEST_END */
