@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Expose the port the app runs on
-EXPOSE 8000
+EXPOSE 3001
 
 # Set environment variables
 ENV NODE_ENV=production

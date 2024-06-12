@@ -22,12 +22,12 @@ const AGENT_DASH_LINKS: TAgentLinks[] = [
   },
   {
     title: "Ajouter nouveau client",
-    href: "agent/customers/add",
+    href: "/agent/customers/add",
     icon: "add",
   },
   {
     title: "Ajouter un nouveau compte bancaire",
-    href: "agent/accounts/add",
+    href: "/agent/accounts/add",
     icon: "add",
   },
 ];

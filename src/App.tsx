@@ -5,12 +5,22 @@ import { RouterProvider, createRouter, NotFoundRoute } from "@tanstack/react-rou
 import { Route as rootRoute } from "./routes/__root.tsx";
 import NotFound from "./pages/NotFound.tsx";
 // Import the generated route tree
-import { routeTree } from "./routeTree.gen";
+import { routeTree } from "./routeTree.gen.ts";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 // creating a route for 404 page
 const notFoundRoute = new NotFoundRoute({
   getParentRoute: () => rootRoute,
   component: NotFound,
+});
+
+// reactquery client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
 });
 
 // Create a new router instance
@@ -29,7 +39,9 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </StrictMode>,
   );
 }
