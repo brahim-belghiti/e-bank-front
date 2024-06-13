@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# react router tree generate at pnpm
+routeTree.gen.ts

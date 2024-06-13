@@ -7,22 +7,21 @@ type TCustomerLinks = {
 };
 
 type TCustomerData = {
-  id: number;
+  id?: number;
   firstname: string;
   lastname: string;
   username: string;
-  sex: string;
   email: string;
   city: string;
   codePostal: string;
   phoneNumber: string;
   address: string;
   dateOfBirth: string;
-  createdAt: string;
-  updatedAt: string;
-  transactionsAsDestinataireIds: number[];
-  transactionsAsSourceIds: number[];
-  accountIds: number[];
+  createdAt?: string;
+  updatedAt?: string;
+  transactionsAsDestinataireIds?: number[];
+  transactionsAsSourceIds?: number[];
+  accountIds?: number[];
 };
 
 export type { TCustomerLinks, TCustomerData };
