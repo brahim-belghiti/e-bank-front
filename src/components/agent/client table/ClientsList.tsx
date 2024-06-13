@@ -1,18 +1,19 @@
-import CustomerServices from "@/api/customer";
-import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
+import { TCustomerData } from "@/types/customer.type";
 
-function ClientsList() {
-  const { data, isPending, error, isError } = useQuery({
-    queryKey: ["customers"],
-    queryFn: CustomerServices.getCustomers,
-  });
-  console.log("🚀 ~ ClientsList ~ query:", data);
-  if (isError) return <div>Error: {error.message}</div>;
+type TClinetListProps = {
+  data: TCustomerData[];
+  isPending: boolean;
+  isError: boolean;
+  error: Error | null;
+};
+
+function ClientsList({ error, isError, data, isPending }: TClinetListProps) {
+  if (isError) return <div>Error: {error?.message}</div>;
 
   return (
-    <section>
+    <section className="flex-grow">
       <DataTable columns={columns} data={data} isPending={isPending} />
     </section>
   );
