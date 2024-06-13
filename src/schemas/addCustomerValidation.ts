@@ -54,6 +54,8 @@ const addCustomerSchema = z.object({
     .max(50, {
       message: "Adresse e-mail ne doit pas depasser 50 caractères",
     }),
+
+  dateOfBirth: z.date({ required_error: "La date de naissance est requise" }),
 });
 
 export { addCustomerSchema };
