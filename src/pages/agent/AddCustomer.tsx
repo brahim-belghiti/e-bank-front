@@ -30,7 +30,6 @@ const AddCustomer = () => {
       firstname: "",
       lastname: "",
       identityNumber: "",
-      phoneNumber: "",
       address: "",
       email: "",
     },

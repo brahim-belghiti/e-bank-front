@@ -37,15 +37,6 @@ const addCustomerSchema = z.object({
       message: "L'adresse doit pas depasser 50 caractères",
     }),
 
-  phoneNumber: z
-    .string({ required_error: "Le numéro de téléphone est requis" })
-    .min(8, {
-      message: "Le numéro de téléphone doit comporter au moins 10 caractères.",
-    })
-    .max(12, {
-      message: "Le numéro de téléphone doit pas depasser 10 caractères",
-    }),
-
   email: z
     .string({ required_error: "L'adresse email est requise" })
     .email({
