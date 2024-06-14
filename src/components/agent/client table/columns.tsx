@@ -71,8 +71,4 @@ export const columns: ColumnDef<TCustomerData>[] = [
     },
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
-  {
-    accessorKey: "phoneNumber",
-    header: "Numéro de téléphone",
-  },
 ];
