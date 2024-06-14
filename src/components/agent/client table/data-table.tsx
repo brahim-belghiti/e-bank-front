@@ -22,6 +22,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import Modal from "../../Modal";
+import { AnimatePresence, motion } from "framer-motion";
+import useCustomerDeletion from "@/hooks/useCustomerDeletion";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -38,8 +41,6 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-  console.log("🚀 ~ rowSelection:", rowSelection);
-
   const table = useReactTable({
     data,
     columns,
@@ -51,23 +52,53 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    getRowId: (row) => row?.id,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
     },
+    enableMultiRowSelection: false,
   });
+
+  const getId = () => {
+    const keys = Object.keys(rowSelection);
+    return keys.length > 0 ? Number(keys[0]) : null;
+  };
+  const deleteCustomerMutation = useCustomerDeletion(getId, () => setRowSelection({}));
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex flex-col lg:flex-row items-center py-4 justify-between">
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
+        <AnimatePresence mode="wait">
+          {Object.keys(rowSelection).length !== 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Modal
+                title="supprimer"
+                dialogTitle="Est ce que vous êtes sûre de vouloir supprimer?"
+              >
+                <Button
+                  onClick={deleteCustomerMutation.handleDelete}
+                  className=" bg-red-400 hover:bg-red-600"
+                >
+                  Confirmer
+                </Button>
+              </Modal>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <div className="rounded-md border">
         <Table>
