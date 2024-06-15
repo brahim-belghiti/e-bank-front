@@ -53,7 +53,6 @@ type TEditFormProps = {
   };
 };
 const EditForm = ({ state }: TEditFormProps) => {
-  console.log("🚀 ~ EditForm ~ state:", state);
   const { customer } = state;
   const navigate = useNavigate();
   const { firstname, lastname, identityNumber, dateOfBirth, address, email } = customer;

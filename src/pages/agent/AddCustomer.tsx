@@ -37,7 +37,6 @@ const AddCustomer = () => {
   });
 
   async function onSubmit(values: z.infer<typeof addCustomerSchema>) {
-    console.log("🚀 ~ onSubmit ~ values:", values);
     const data = {
       ...values,
       phoneNumber: "06666666",

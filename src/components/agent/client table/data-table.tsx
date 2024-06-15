@@ -71,6 +71,7 @@ export function DataTable<TData, TValue>({
 
   // get the customer from data with the id returned form getId()
   const customer = data.find((customer) => customer.id === getId());
+  const customerId: string = getId()?.toString();
 
   return (
     <div className="w-full">
@@ -93,7 +94,7 @@ export function DataTable<TData, TValue>({
                 >
                   <Link
                     to="/agent/customers/$id/edit"
-                    params={{ id: getId() }}
+                    params={{ id: customerId }}
                     state={{ customer: customer }}
                     className="flex bg-primary hover:bg-blue-800 text-white h-full p-2 lg:px-4 rounded-md items-center"
                   >
