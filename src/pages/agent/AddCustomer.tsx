@@ -43,7 +43,6 @@ const AddCustomer = () => {
       password: "12345678",
       city: "rabat",
       codePostal: "12000",
-      dateOfBirth: "2000-01-12",
     };
 
     const res = await CustomerServices.addCustomer(data);
@@ -56,7 +55,9 @@ const AddCustomer = () => {
       }
     } else {
       toast.success("client ajouter avec succes");
-      navigate({ to: "/agent/dashboard" });
+      setTimeout(() => {
+        navigate({ to: "/agent/dashboard" });
+      }, 1000);
     }
   }
   return (
