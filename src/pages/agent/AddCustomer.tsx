@@ -21,6 +21,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
+import { formatDate } from "@/lib/helpers";
 
 const AddCustomer = () => {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ const AddCustomer = () => {
   });
 
   async function onSubmit(values: z.infer<typeof addCustomerSchema>) {
+    console.log("🚀 ~ onSubmit ~ values:", values);
     const data = {
       ...values,
       phoneNumber: "06666666",
@@ -43,10 +45,11 @@ const AddCustomer = () => {
       password: "12345678",
       city: "rabat",
       codePostal: "12000",
+      dateOfBirth: formatDate(values.dateOfBirth),
     };
 
     const res = await CustomerServices.addCustomer(data);
-    if (res.status === 500) {
+    if (res.status === 500 || res.status === 400) {
       const test: string = "Duplicate entry";
       if (res.message.includes(test)) {
         toast.error("l'email ou le numéro d'identité existent déja sur la base des données");

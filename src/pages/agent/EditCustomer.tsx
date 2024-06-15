@@ -22,6 +22,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { TCustomerData } from "@/types/customer.type";
+import { formatDate } from "@/lib/helpers";
 
 const EditCustomer = () => {
   const state = useRouterState({ select: (s) => s.location.state }) || null;
@@ -76,7 +77,7 @@ const EditForm = ({ state }: TEditFormProps) => {
       password: "12345678",
       city: "rabat",
       codePostal: "12000",
-      dateOfBirth: "2000-01-12",
+      dateOfBirth: formatDate(values.dateOfBirth),
       id: customer.id,
     };
 
