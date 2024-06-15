@@ -12,6 +12,7 @@ type TCustomerData = {
   lastname: string;
   username: string;
   email: string;
+  identityNumber: string;
   city: string;
   codePostal: string;
   phoneNumber: string;

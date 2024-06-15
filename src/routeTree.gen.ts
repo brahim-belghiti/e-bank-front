@@ -19,6 +19,7 @@ import { Route as CustomerTransactionsAddImport } from './routes/_customer/trans
 import { Route as AgentAgentDashboardImport } from './routes/_agent/agent/dashboard'
 import { Route as AgentAgentCustomersAddImport } from './routes/_agent/agent/customers/add'
 import { Route as AgentAgentAccountsAddImport } from './routes/_agent/agent/accounts/add'
+import { Route as AgentAgentCustomersIdEditImport } from './routes/_agent/agent/customers/$id/edit'
 
 // Create/Update Routes
 
@@ -59,6 +60,11 @@ const AgentAgentCustomersAddRoute = AgentAgentCustomersAddImport.update({
 
 const AgentAgentAccountsAddRoute = AgentAgentAccountsAddImport.update({
   path: '/agent/accounts/add',
+  getParentRoute: () => AgentRoute,
+} as any)
+
+const AgentAgentCustomersIdEditRoute = AgentAgentCustomersIdEditImport.update({
+  path: '/agent/customers/$id/edit',
   getParentRoute: () => AgentRoute,
 } as any)
 
@@ -122,6 +128,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentAgentCustomersAddImport
       parentRoute: typeof AgentImport
     }
+    '/_agent/agent/customers/$id/edit': {
+      id: '/_agent/agent/customers/$id/edit'
+      path: '/agent/customers/$id/edit'
+      fullPath: '/agent/customers/$id/edit'
+      preLoaderRoute: typeof AgentAgentCustomersIdEditImport
+      parentRoute: typeof AgentImport
+    }
   }
 }
 
@@ -133,6 +146,7 @@ export const routeTree = rootRoute.addChildren({
     AgentAgentDashboardRoute,
     AgentAgentAccountsAddRoute,
     AgentAgentCustomersAddRoute,
+    AgentAgentCustomersIdEditRoute,
   }),
   CustomerRoute: CustomerRoute.addChildren({
     CustomerDashboardRoute,
@@ -161,7 +175,8 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_agent/agent/dashboard",
         "/_agent/agent/accounts/add",
-        "/_agent/agent/customers/add"
+        "/_agent/agent/customers/add",
+        "/_agent/agent/customers/$id/edit"
       ]
     },
     "/_customer": {
@@ -189,6 +204,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_agent/agent/customers/add": {
       "filePath": "_agent/agent/customers/add.tsx",
+      "parent": "/_agent"
+    },
+    "/_agent/agent/customers/$id/edit": {
+      "filePath": "_agent/agent/customers/$id/edit.tsx",
       "parent": "/_agent"
     }
   }

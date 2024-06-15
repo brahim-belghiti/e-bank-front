@@ -45,4 +45,23 @@ export default class CustomerServices {
       throw error;
     }
   }
+
+  static async updateCustomer(customer: TCustomerData) {
+    try {
+      const response = await fetch(`${CustomerServices.API_URL}/api/customers/${customer.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(customer),
+      });
+      if (!response.ok) {
+        // throw new Error(`Failed to edit customer. Status: ${response.status}`);
+        return response.status;
+      }
+    } catch (error) {
+      console.error("Failed to edit customer:", error);
+      throw error;
+    }
+  }
 }
