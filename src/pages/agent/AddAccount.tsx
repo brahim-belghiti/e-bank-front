@@ -19,8 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useQueryClient } from "@tanstack/react-query";
-import { TCustomerData } from "@/types/customer.type";
+import { TCustomerData } from "@/types/customer.types";
+import { useCustomers } from "@/hooks/useGetCustomers";
 
 function AddAccount() {
   const form = useForm<z.infer<typeof accountValidation>>({
@@ -35,8 +35,9 @@ function AddAccount() {
     console.log("🚀 ~ onSubmit ~ values:", values);
   }
 
-  const queryclient = useQueryClient();
-  const customers: TCustomerData[] | undefined = queryclient.getQueryData(["customers"]);
+  const { data, isPending } = useCustomers();
+  const customers: TCustomerData[] = data;
+
   return (
     <main className="h-screen w-full flex justify-center items-center">
       <Form {...form}>
@@ -54,12 +55,17 @@ function AddAccount() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {customers &&
+                    {isPending ? (
+                      <p>Chargement...</p>
+                    ) : customers && customers.length > 0 ? (
                       customers.map((customer) => (
                         <SelectItem key={customer.id} value={customer.identityNumber}>
                           {customer.identityNumber}
                         </SelectItem>
-                      ))}
+                      ))
+                    ) : (
+                      <p>Aucun client</p>
+                    )}
                   </SelectContent>
                 </Select>
                 <FormMessage />

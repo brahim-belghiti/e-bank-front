@@ -1,4 +1,4 @@
-import { TCustomerData } from "@/types/customer.type";
+import { TCustomerData } from "@/types/customer.types";
 
 export default class CustomerServices {
   static API_URL = import.meta.env.VITE_API_URL;

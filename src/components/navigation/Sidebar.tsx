@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { DashboardMenu } from "@/components/navigation/DashboardMenu";
-import { TCustomerLinks } from "@/types/customer.type";
+import { TCustomerLinks } from "@/types/customer.types";
 
 type TSidebarProps = {
   linkItems: TCustomerLinks[];

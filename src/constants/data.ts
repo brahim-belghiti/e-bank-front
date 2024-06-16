@@ -1,4 +1,4 @@
-import { TCustomerLinks } from "@/types/customer.type";
+import { TCustomerLinks } from "@/types/customer.types";
 import { TAgentLinks } from "@/types/agent.types";
 
 const CUSTOMER_DASH_LINKS: TCustomerLinks[] = [

@@ -3,7 +3,7 @@ import { MobileSidebar } from "@/components/navigation/MobileSidebar";
 import { Link } from "@tanstack/react-router";
 import { UserMenu } from "@/components/navigation/UserMenu";
 import logo1 from "../assets/logo1.png";
-import { TCustomerLinks } from "@/types/customer.type";
+import { TCustomerLinks } from "@/types/customer.types";
 
 type TSidebarProps = {
   linkItems: TCustomerLinks[];

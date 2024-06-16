@@ -1,6 +1,6 @@
 import { DashboardMenu } from "@/components/navigation/DashboardMenu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { TCustomerLinks } from "@/types/customer.type";
+import { TCustomerLinks } from "@/types/customer.types";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
 import logo1 from "../../assets/logo1.png";
