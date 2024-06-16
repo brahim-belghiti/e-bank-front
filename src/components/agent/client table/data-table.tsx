@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
 
   // get the customer from data with the id returned form getId()
   const customer = data.find((customer) => customer.id === getId());
-  const customerId: string = getId()?.toString();
+  const customerId: string = getId()?.toString() || "";
 
   return (
     <div className="w-full">

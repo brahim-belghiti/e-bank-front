@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const addCustomerSchema = z.object({
+const customerValidation = z.object({
   firstname: z
     .string({ required_error: "Le prénom est requis" })
     .min(2, {
@@ -49,4 +49,4 @@ const addCustomerSchema = z.object({
   dateOfBirth: z.date({ required_error: "La date de naissance est requise" }),
 });
 
-export { addCustomerSchema };
+export { customerValidation };

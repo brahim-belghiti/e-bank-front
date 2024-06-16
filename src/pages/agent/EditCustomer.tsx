@@ -1,4 +1,4 @@
-import { addCustomerSchema } from "@/schemas/addCustomerValidation";
+import { customerValidation } from "@/schemas/customerValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -56,8 +56,8 @@ const EditForm = ({ state }: TEditFormProps) => {
   const { customer } = state;
   const navigate = useNavigate();
   const { firstname, lastname, identityNumber, dateOfBirth, address, email } = customer;
-  const form = useForm<z.infer<typeof addCustomerSchema>>({
-    resolver: zodResolver(addCustomerSchema),
+  const form = useForm<z.infer<typeof customerValidation>>({
+    resolver: zodResolver(customerValidation),
     defaultValues: {
       firstname,
       lastname,
@@ -68,7 +68,7 @@ const EditForm = ({ state }: TEditFormProps) => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof addCustomerSchema>) {
+  async function onSubmit(values: z.infer<typeof customerValidation>) {
     const data = {
       ...values,
       phoneNumber: "06666666",
