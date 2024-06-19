@@ -1,5 +1,5 @@
-import { DataTable } from "./data-table";
-import { columns } from "./columns";
+import { DataTable } from "@/components/agent/client-table//data-table";
+import { columns } from "@/components/agent/client-table/columns";
 import { TCustomerData } from "@/types/customer.types";
 import { useCustomers } from "@/hooks/useGetCustomers";
 
