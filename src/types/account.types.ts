@@ -4,7 +4,7 @@ type TAccountData = {
   id: string;
   activated: boolean;
   balance: number;
-  status: string;
+  status: "CREATED" | "ACTIVATED" | "SUSPENDED";
   iban: string;
   customer: TCustomerData;
 };
