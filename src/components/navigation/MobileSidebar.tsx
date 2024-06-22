@@ -1,13 +1,13 @@
 import { DashboardMenu } from "@/components/navigation/DashboardMenu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { TCustomerLinks } from "@/types/customer.types";
+import { TDAshLinks } from "@/types/dashboard.types";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
 import logo1 from "../../assets/logo1.png";
 import { Link } from "@tanstack/react-router";
 
 type TSidebarProps = {
-  linkItems: TCustomerLinks[];
+  linkItems: TDAshLinks[];
 };
 
 export function MobileSidebar({ linkItems }: TSidebarProps) {

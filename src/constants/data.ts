@@ -1,7 +1,6 @@
-import { TCustomerLinks } from "@/types/customer.types";
-import { TAgentLinks } from "@/types/agent.types";
+import { TDAshLinks } from "@/types/dashboard.types";
 
-const CUSTOMER_DASH_LINKS: TCustomerLinks[] = [
+const CUSTOMER_DASH_LINKS: TDAshLinks[] = [
   {
     title: "tableu de bord",
     href: "/dashboard",
@@ -14,7 +13,7 @@ const CUSTOMER_DASH_LINKS: TCustomerLinks[] = [
   },
 ];
 
-const AGENT_DASH_LINKS: TAgentLinks[] = [
+const AGENT_DASH_LINKS: TDAshLinks[] = [
   {
     title: "tableu de bord",
     href: "/agent/dashboard",

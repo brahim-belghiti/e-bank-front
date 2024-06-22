@@ -19,22 +19,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { TTransactionData } from "@/types/transaction.types";
 import { Textarea } from "@/components/ui/textarea";
 
 export const AddTranscation = () => {
   const form = useForm<z.infer<typeof transactionValidation>>({
     resolver: zodResolver(transactionValidation),
-    defaultValues: {
-      rib: "",
-      amount: 0,
-      accountId: "",
-      motif: "",
-      ribToCredit: "",
-    },
+    defaultValues: {},
   });
 
-  async function onSubmit(values: z.infer<typeof TTransactionData>) {
+  async function onSubmit(values: z.infer<typeof transactionValidation>) {
     console.log("🚀 ~ onSubmit ~ values:", values);
   }
   return (
@@ -83,7 +76,7 @@ export const AddTranscation = () => {
               <FormItem>
                 <FormLabel>Le montant du virement</FormLabel>
                 <FormControl>
-                  <Input {...field} min={0} />
+                  <Input {...field} type="number" min={0} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -116,7 +109,7 @@ export const AddTranscation = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Créer</Button>
         </form>
       </Form>
     </main>

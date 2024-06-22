@@ -11,25 +11,27 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as CustomerImport } from './routes/_customer'
-import { Route as AgentImport } from './routes/_agent'
+import { Route as PasswordImport } from './routes/password'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
-import { Route as CustomerDashboardImport } from './routes/_customer/dashboard'
-import { Route as CustomerTransactionsAddImport } from './routes/_customer/transactions/add'
-import { Route as AgentAgentDashboardImport } from './routes/_agent/agent/dashboard'
-import { Route as AgentAgentCustomersAddImport } from './routes/_agent/agent/customers/add'
-import { Route as AgentAgentAccountsAddImport } from './routes/_agent/agent/accounts/add'
-import { Route as AgentAgentCustomersIdEditImport } from './routes/_agent/agent/customers/$id/edit'
+import { Route as AuthenticatedCustomerImport } from './routes/_authenticated/_customer'
+import { Route as AuthenticatedAgentImport } from './routes/_authenticated/_agent'
+import { Route as AuthenticatedCustomerDashboardImport } from './routes/_authenticated/_customer/dashboard'
+import { Route as AuthenticatedCustomerTransactionsAddImport } from './routes/_authenticated/_customer/transactions/add'
+import { Route as AuthenticatedCustomerAgentDashboardImport } from './routes/_authenticated/_customer/agent/dashboard'
+import { Route as AuthenticatedCustomerAgentCustomersAddImport } from './routes/_authenticated/_customer/agent/customers/add'
+import { Route as AuthenticatedCustomerAgentAccountsAddImport } from './routes/_authenticated/_customer/agent/accounts/add'
+import { Route as AuthenticatedCustomerAgentCustomersIdEditImport } from './routes/_authenticated/_customer/agent/customers/$id/edit'
 
 // Create/Update Routes
 
-const CustomerRoute = CustomerImport.update({
-  id: '/_customer',
+const PasswordRoute = PasswordImport.update({
+  path: '/password',
   getParentRoute: () => rootRoute,
 } as any)
 
-const AgentRoute = AgentImport.update({
-  id: '/_agent',
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -38,35 +40,51 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const CustomerDashboardRoute = CustomerDashboardImport.update({
-  path: '/dashboard',
-  getParentRoute: () => CustomerRoute,
+const AuthenticatedCustomerRoute = AuthenticatedCustomerImport.update({
+  id: '/_customer',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
-const CustomerTransactionsAddRoute = CustomerTransactionsAddImport.update({
-  path: '/transactions/add',
-  getParentRoute: () => CustomerRoute,
+const AuthenticatedAgentRoute = AuthenticatedAgentImport.update({
+  id: '/_agent',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
-const AgentAgentDashboardRoute = AgentAgentDashboardImport.update({
-  path: '/agent/dashboard',
-  getParentRoute: () => AgentRoute,
-} as any)
+const AuthenticatedCustomerDashboardRoute =
+  AuthenticatedCustomerDashboardImport.update({
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedCustomerRoute,
+  } as any)
 
-const AgentAgentCustomersAddRoute = AgentAgentCustomersAddImport.update({
-  path: '/agent/customers/add',
-  getParentRoute: () => AgentRoute,
-} as any)
+const AuthenticatedCustomerTransactionsAddRoute =
+  AuthenticatedCustomerTransactionsAddImport.update({
+    path: '/transactions/add',
+    getParentRoute: () => AuthenticatedCustomerRoute,
+  } as any)
 
-const AgentAgentAccountsAddRoute = AgentAgentAccountsAddImport.update({
-  path: '/agent/accounts/add',
-  getParentRoute: () => AgentRoute,
-} as any)
+const AuthenticatedCustomerAgentDashboardRoute =
+  AuthenticatedCustomerAgentDashboardImport.update({
+    path: '/agent/dashboard',
+    getParentRoute: () => AuthenticatedCustomerRoute,
+  } as any)
 
-const AgentAgentCustomersIdEditRoute = AgentAgentCustomersIdEditImport.update({
-  path: '/agent/customers/$id/edit',
-  getParentRoute: () => AgentRoute,
-} as any)
+const AuthenticatedCustomerAgentCustomersAddRoute =
+  AuthenticatedCustomerAgentCustomersAddImport.update({
+    path: '/agent/customers/add',
+    getParentRoute: () => AuthenticatedCustomerRoute,
+  } as any)
+
+const AuthenticatedCustomerAgentAccountsAddRoute =
+  AuthenticatedCustomerAgentAccountsAddImport.update({
+    path: '/agent/accounts/add',
+    getParentRoute: () => AuthenticatedCustomerRoute,
+  } as any)
+
+const AuthenticatedCustomerAgentCustomersIdEditRoute =
+  AuthenticatedCustomerAgentCustomersIdEditImport.update({
+    path: '/agent/customers/$id/edit',
+    getParentRoute: () => AuthenticatedCustomerRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -79,61 +97,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/_agent': {
-      id: '/_agent'
+    '/_authenticated': {
+      id: '/_authenticated'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AgentImport
+      preLoaderRoute: typeof AuthenticatedImport
       parentRoute: typeof rootRoute
     }
-    '/_customer': {
-      id: '/_customer'
+    '/password': {
+      id: '/password'
+      path: '/password'
+      fullPath: '/password'
+      preLoaderRoute: typeof PasswordImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated/_agent': {
+      id: '/_authenticated/_agent'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof CustomerImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthenticatedAgentImport
+      parentRoute: typeof AuthenticatedImport
     }
-    '/_customer/dashboard': {
-      id: '/_customer/dashboard'
+    '/_authenticated/_customer': {
+      id: '/_authenticated/_customer'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedCustomerImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/_customer/dashboard': {
+      id: '/_authenticated/_customer/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof CustomerDashboardImport
-      parentRoute: typeof CustomerImport
+      preLoaderRoute: typeof AuthenticatedCustomerDashboardImport
+      parentRoute: typeof AuthenticatedCustomerImport
     }
-    '/_agent/agent/dashboard': {
-      id: '/_agent/agent/dashboard'
+    '/_authenticated/_customer/agent/dashboard': {
+      id: '/_authenticated/_customer/agent/dashboard'
       path: '/agent/dashboard'
       fullPath: '/agent/dashboard'
-      preLoaderRoute: typeof AgentAgentDashboardImport
-      parentRoute: typeof AgentImport
+      preLoaderRoute: typeof AuthenticatedCustomerAgentDashboardImport
+      parentRoute: typeof AuthenticatedCustomerImport
     }
-    '/_customer/transactions/add': {
-      id: '/_customer/transactions/add'
+    '/_authenticated/_customer/transactions/add': {
+      id: '/_authenticated/_customer/transactions/add'
       path: '/transactions/add'
       fullPath: '/transactions/add'
-      preLoaderRoute: typeof CustomerTransactionsAddImport
-      parentRoute: typeof CustomerImport
+      preLoaderRoute: typeof AuthenticatedCustomerTransactionsAddImport
+      parentRoute: typeof AuthenticatedCustomerImport
     }
-    '/_agent/agent/accounts/add': {
-      id: '/_agent/agent/accounts/add'
+    '/_authenticated/_customer/agent/accounts/add': {
+      id: '/_authenticated/_customer/agent/accounts/add'
       path: '/agent/accounts/add'
       fullPath: '/agent/accounts/add'
-      preLoaderRoute: typeof AgentAgentAccountsAddImport
-      parentRoute: typeof AgentImport
+      preLoaderRoute: typeof AuthenticatedCustomerAgentAccountsAddImport
+      parentRoute: typeof AuthenticatedCustomerImport
     }
-    '/_agent/agent/customers/add': {
-      id: '/_agent/agent/customers/add'
+    '/_authenticated/_customer/agent/customers/add': {
+      id: '/_authenticated/_customer/agent/customers/add'
       path: '/agent/customers/add'
       fullPath: '/agent/customers/add'
-      preLoaderRoute: typeof AgentAgentCustomersAddImport
-      parentRoute: typeof AgentImport
+      preLoaderRoute: typeof AuthenticatedCustomerAgentCustomersAddImport
+      parentRoute: typeof AuthenticatedCustomerImport
     }
-    '/_agent/agent/customers/$id/edit': {
-      id: '/_agent/agent/customers/$id/edit'
+    '/_authenticated/_customer/agent/customers/$id/edit': {
+      id: '/_authenticated/_customer/agent/customers/$id/edit'
       path: '/agent/customers/$id/edit'
       fullPath: '/agent/customers/$id/edit'
-      preLoaderRoute: typeof AgentAgentCustomersIdEditImport
-      parentRoute: typeof AgentImport
+      preLoaderRoute: typeof AuthenticatedCustomerAgentCustomersIdEditImport
+      parentRoute: typeof AuthenticatedCustomerImport
     }
   }
 }
@@ -142,16 +174,17 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
-  AgentRoute: AgentRoute.addChildren({
-    AgentAgentDashboardRoute,
-    AgentAgentAccountsAddRoute,
-    AgentAgentCustomersAddRoute,
-    AgentAgentCustomersIdEditRoute,
+  AuthenticatedRoute: AuthenticatedRoute.addChildren({
+    AuthenticatedCustomerRoute: AuthenticatedCustomerRoute.addChildren({
+      AuthenticatedCustomerDashboardRoute,
+      AuthenticatedCustomerAgentDashboardRoute,
+      AuthenticatedCustomerTransactionsAddRoute,
+      AuthenticatedCustomerAgentAccountsAddRoute,
+      AuthenticatedCustomerAgentCustomersAddRoute,
+      AuthenticatedCustomerAgentCustomersIdEditRoute,
+    }),
   }),
-  CustomerRoute: CustomerRoute.addChildren({
-    CustomerDashboardRoute,
-    CustomerTransactionsAddRoute,
-  }),
+  PasswordRoute,
 })
 
 /* prettier-ignore-end */
@@ -163,52 +196,62 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_agent",
-        "/_customer"
+        "/_authenticated",
+        "/password"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/_agent": {
-      "filePath": "_agent.tsx",
+    "/_authenticated": {
+      "filePath": "_authenticated.tsx",
       "children": [
-        "/_agent/agent/dashboard",
-        "/_agent/agent/accounts/add",
-        "/_agent/agent/customers/add",
-        "/_agent/agent/customers/$id/edit"
+        "/_authenticated/_agent",
+        "/_authenticated/_customer"
       ]
     },
-    "/_customer": {
-      "filePath": "_customer.tsx",
+    "/password": {
+      "filePath": "password.tsx"
+    },
+    "/_authenticated/_agent": {
+      "filePath": "_authenticated/_agent.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/_customer": {
+      "filePath": "_authenticated/_customer.tsx",
+      "parent": "/_authenticated",
       "children": [
-        "/_customer/dashboard",
-        "/_customer/transactions/add"
+        "/_authenticated/_customer/dashboard",
+        "/_authenticated/_customer/agent/dashboard",
+        "/_authenticated/_customer/transactions/add",
+        "/_authenticated/_customer/agent/accounts/add",
+        "/_authenticated/_customer/agent/customers/add",
+        "/_authenticated/_customer/agent/customers/$id/edit"
       ]
     },
-    "/_customer/dashboard": {
-      "filePath": "_customer/dashboard.tsx",
-      "parent": "/_customer"
+    "/_authenticated/_customer/dashboard": {
+      "filePath": "_authenticated/_customer/dashboard.tsx",
+      "parent": "/_authenticated/_customer"
     },
-    "/_agent/agent/dashboard": {
-      "filePath": "_agent/agent/dashboard.tsx",
-      "parent": "/_agent"
+    "/_authenticated/_customer/agent/dashboard": {
+      "filePath": "_authenticated/_customer/agent/dashboard.tsx",
+      "parent": "/_authenticated/_customer"
     },
-    "/_customer/transactions/add": {
-      "filePath": "_customer/transactions/add.tsx",
-      "parent": "/_customer"
+    "/_authenticated/_customer/transactions/add": {
+      "filePath": "_authenticated/_customer/transactions/add.tsx",
+      "parent": "/_authenticated/_customer"
     },
-    "/_agent/agent/accounts/add": {
-      "filePath": "_agent/agent/accounts/add.tsx",
-      "parent": "/_agent"
+    "/_authenticated/_customer/agent/accounts/add": {
+      "filePath": "_authenticated/_customer/agent/accounts/add.tsx",
+      "parent": "/_authenticated/_customer"
     },
-    "/_agent/agent/customers/add": {
-      "filePath": "_agent/agent/customers/add.tsx",
-      "parent": "/_agent"
+    "/_authenticated/_customer/agent/customers/add": {
+      "filePath": "_authenticated/_customer/agent/customers/add.tsx",
+      "parent": "/_authenticated/_customer"
     },
-    "/_agent/agent/customers/$id/edit": {
-      "filePath": "_agent/agent/customers/$id/edit.tsx",
-      "parent": "/_agent"
+    "/_authenticated/_customer/agent/customers/$id/edit": {
+      "filePath": "_authenticated/_customer/agent/customers/$id/edit.tsx",
+      "parent": "/_authenticated/_customer"
     }
   }
 }

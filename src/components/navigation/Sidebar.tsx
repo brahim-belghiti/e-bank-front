@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import { DashboardMenu } from "@/components/navigation/DashboardMenu";
-import { TCustomerLinks } from "@/types/customer.types";
+import { TDAshLinks } from "@/types/dashboard.types";
 
 type TSidebarProps = {
-  linkItems: TCustomerLinks[];
+  linkItems: TDAshLinks[];
 };
 const Sidebar = ({ linkItems }: TSidebarProps) => {
   return (

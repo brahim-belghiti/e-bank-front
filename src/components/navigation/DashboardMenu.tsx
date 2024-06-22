@@ -1,11 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Icons } from "@/components/Icons";
 import { cn } from "@/lib/utils";
-import { TCustomerLinks } from "@/types/customer.types";
+import { TDAshLinks } from "@/types/dashboard.types";
 import { Dispatch, SetStateAction } from "react";
 
 interface DashboardMenuProps {
-  items: TCustomerLinks[];
+  items: TDAshLinks[];
   setOpen?: Dispatch<SetStateAction<boolean>>;
 }
 

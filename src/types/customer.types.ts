@@ -1,11 +1,3 @@
-import { Icons } from "@/components/Icons";
-
-type TCustomerLinks = {
-  title: string;
-  href: string;
-  icon: keyof typeof Icons;
-};
-
 type TCustomerData = {
   id?: number;
   firstname: string;
@@ -25,4 +17,4 @@ type TCustomerData = {
   accountIds?: number[];
 };
 
-export type { TCustomerLinks, TCustomerData };
+export type { TCustomerData };

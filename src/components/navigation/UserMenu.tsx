@@ -8,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "@tanstack/react-router";
 export function UserMenu() {
   return (
     <DropdownMenu>
@@ -15,7 +16,9 @@ export function UserMenu() {
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage />
-            <AvatarFallback></AvatarFallback>
+            <AvatarFallback className="bg-orange-400 text-primary-foreground text-xs">
+              CN
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -27,7 +30,10 @@ export function UserMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Changer mot de passe</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link to="/password">Changer mot de passe</Link>
+          Changer mot de passe
+        </DropdownMenuItem>
         <DropdownMenuItem>Se déconnecter</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

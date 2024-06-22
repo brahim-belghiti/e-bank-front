@@ -3,10 +3,10 @@ import { MobileSidebar } from "@/components/navigation/MobileSidebar";
 import { Link } from "@tanstack/react-router";
 import { UserMenu } from "@/components/navigation/UserMenu";
 import logo1 from "../assets/logo1.png";
-import { TCustomerLinks } from "@/types/customer.types";
+import { TDAshLinks } from "@/types/dashboard.types";
 
 type TSidebarProps = {
-  linkItems: TCustomerLinks[];
+  linkItems: TDAshLinks[];
 };
 
 export default function Header({ linkItems }: TSidebarProps) {
