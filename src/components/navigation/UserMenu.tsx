@@ -32,7 +32,6 @@ export function UserMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link to="/password">Changer mot de passe</Link>
-          Changer mot de passe
         </DropdownMenuItem>
         <DropdownMenuItem>Se déconnecter</DropdownMenuItem>
       </DropdownMenuContent>
