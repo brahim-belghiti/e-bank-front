@@ -1,16 +1,8 @@
-import { RouterProvider, createRouter, NotFoundRoute } from "@tanstack/react-router";
-import { Route as rootRoute } from "./routes/__root.tsx";
-import NotFound from "./pages/NotFound.tsx";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAuthContext } from "./context/useAuthContext.ts";
-
-// creating a route for 404 page
-const notFoundRoute = new NotFoundRoute({
-  getParentRoute: () => rootRoute,
-  component: NotFound,
-});
 
 // reactquery client
 const queryClient = new QueryClient({
@@ -27,7 +19,6 @@ const router = createRouter({
   context: {
     auth: undefined!,
   },
-  notFoundRoute,
 });
 
 // Register the router instance for type safety
