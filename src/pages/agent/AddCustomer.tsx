@@ -21,7 +21,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { formatDate } from "@/lib/helpers";
+// import { formatDate } from "@/lib/helpers";
 
 const AddCustomer = () => {
   const navigate = useNavigate();
@@ -39,12 +39,12 @@ const AddCustomer = () => {
   async function onSubmit(values: z.infer<typeof customerValidation>) {
     const data = {
       ...values,
-      phoneNumber: "06666666",
-      username: "ken",
-      password: "12345678",
-      city: "rabat",
-      codePostal: "12000",
-      dateOfBirth: formatDate(values.dateOfBirth),
+      // phoneNumber: "06666666",
+      // username: "ken",
+      // password: "12345678",
+      // city: "rabat",
+      // codePostal: "12000",
+      // dateOfBirth: formatDate(values.dateOfBirth),
     };
 
     const res = await CustomerServices.addCustomer(data);

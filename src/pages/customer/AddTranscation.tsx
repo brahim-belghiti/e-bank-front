@@ -20,12 +20,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { TAccountData } from "@/types/account.types";
+import { useAccounts } from "@/hooks/useGetAccounts";
 
 export const AddTranscation = () => {
   const form = useForm<z.infer<typeof transactionValidation>>({
     resolver: zodResolver(transactionValidation),
     defaultValues: {},
   });
+
+  const { data } = useAccounts();
+  const accountsList: TAccountData[] = data || [];
 
   async function onSubmit(values: z.infer<typeof transactionValidation>) {
     console.log("🚀 ~ onSubmit ~ values:", values);
@@ -36,7 +41,7 @@ export const AddTranscation = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-8/12 space-y-4">
           <FormField
             control={form.control}
-            name="rib"
+            name="iban"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Le numéro du rib</FormLabel>
@@ -60,9 +65,11 @@ export const AddTranscation = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="m@example.com">compte1</SelectItem>
-                    <SelectItem value="m@google.com">compte2</SelectItem>
-                    <SelectItem value="m@support.com">compte3</SelectItem>
+                    {accountsList.map((account) => (
+                      <SelectItem key={account.id} value={account.id}>
+                        {account.iban}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -85,7 +92,7 @@ export const AddTranscation = () => {
 
           <FormField
             control={form.control}
-            name="ribToCredit"
+            name="ibanToCredit"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Le rib du destinataire</FormLabel>

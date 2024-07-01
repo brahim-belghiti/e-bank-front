@@ -4,6 +4,7 @@ type TTransactionData = {
   dateOperation: string;
   amount: number;
   motif: string;
+  account_id: string;
 };
 
 export type { TTransactionData };

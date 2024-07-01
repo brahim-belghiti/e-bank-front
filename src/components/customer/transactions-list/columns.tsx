@@ -7,11 +7,11 @@ export const columns: ColumnDef<TTransactionData>[] = [
     header: "Intitulé",
   },
   {
-    accessorKey: "type",
+    accessorKey: "typeOperation",
     header: "type",
   },
   {
-    accessorKey: "date",
+    accessorKey: "dateOperation",
     header: "Date",
   },
   {

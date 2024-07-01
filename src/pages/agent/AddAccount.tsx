@@ -19,16 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { TCustomerData } from "@/types/customer.types";
 import { useCustomers } from "@/hooks/useGetCustomers";
 
 function AddAccount() {
   const form = useForm<z.infer<typeof accountValidation>>({
     resolver: zodResolver(accountValidation),
-    defaultValues: {
-      identityNumber: "",
-      rib: "",
-    },
+    defaultValues: {},
   });
 
   async function onSubmit(values: z.infer<typeof accountValidation>) {
@@ -36,7 +32,7 @@ function AddAccount() {
   }
 
   const { data, isPending } = useCustomers();
-  const customers: TCustomerData[] = data;
+  const customers = data;
 
   return (
     <main className="h-screen w-full flex justify-center items-center">
@@ -74,7 +70,7 @@ function AddAccount() {
           />
           <FormField
             control={form.control}
-            name="rib"
+            name="iban"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>RIB</FormLabel>

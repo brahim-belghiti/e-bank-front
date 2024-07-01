@@ -3,15 +3,19 @@ import { columns } from "@/components/customer/transactions-list/columns";
 import { TTransactionData } from "@/types/transaction.types";
 import { useTransactions } from "@/hooks/useGetTransactions";
 
-function TranscationList() {
-  const { data, isPending, error, isError } = useTransactions();
+function TranscationList({ accountId }: { accountId: string }) {
+  const { data, isPending, isError } = useTransactions();
   const transactionsList: TTransactionData[] = data || [];
+  const transactions = transactionsList.filter(
+    (transaction) => accountId === transaction.account_id,
+  );
 
-  if (isError) return <div>Error: {error?.message}</div>;
+  if (isError)
+    return <div>Désole: Erreur lors de la tentative de récupération de la ressource.</div>;
 
   return (
     <section className="flex-grow">
-      <DataTable columns={columns} data={transactionsList} isPending={isPending} />
+      <DataTable columns={columns} data={transactions} isPending={isPending} />
     </section>
   );
 }
