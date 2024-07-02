@@ -1,6 +1,8 @@
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TAccountData } from "@/types/account.types";
 import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<TAccountData>[] = [
   {
@@ -16,8 +18,19 @@ export const columns: ColumnDef<TAccountData>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "customer.email",
-    header: "email",
+    accessorKey: "iban",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Rib
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="lowercase">{row.getValue("iban")}</div>,
   },
   {
     accessorKey: "status",

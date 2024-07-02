@@ -22,6 +22,7 @@ import { Route as AuthenticatedAgentAgentDashboardImport } from './routes/_authe
 import { Route as AuthenticatedAgentAgentCustomersAddImport } from './routes/_authenticated/_agent/agent/customers/add'
 import { Route as AuthenticatedAgentAgentAccountsAddImport } from './routes/_authenticated/_agent/agent/accounts/add'
 import { Route as AuthenticatedAgentAgentCustomersIdEditImport } from './routes/_authenticated/_agent/agent/customers/$id/edit'
+import { Route as AuthenticatedAgentAgentAccountsIdEditImport } from './routes/_authenticated/_agent/agent/accounts/$id/edit'
 
 // Create/Update Routes
 
@@ -83,6 +84,12 @@ const AuthenticatedAgentAgentAccountsAddRoute =
 const AuthenticatedAgentAgentCustomersIdEditRoute =
   AuthenticatedAgentAgentCustomersIdEditImport.update({
     path: '/agent/customers/$id/edit',
+    getParentRoute: () => AuthenticatedAgentRoute,
+  } as any)
+
+const AuthenticatedAgentAgentAccountsIdEditRoute =
+  AuthenticatedAgentAgentAccountsIdEditImport.update({
+    path: '/agent/accounts/$id/edit',
     getParentRoute: () => AuthenticatedAgentRoute,
   } as any)
 
@@ -160,6 +167,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAgentAgentCustomersAddImport
       parentRoute: typeof AuthenticatedAgentImport
     }
+    '/_authenticated/_agent/agent/accounts/$id/edit': {
+      id: '/_authenticated/_agent/agent/accounts/$id/edit'
+      path: '/agent/accounts/$id/edit'
+      fullPath: '/agent/accounts/$id/edit'
+      preLoaderRoute: typeof AuthenticatedAgentAgentAccountsIdEditImport
+      parentRoute: typeof AuthenticatedAgentImport
+    }
     '/_authenticated/_agent/agent/customers/$id/edit': {
       id: '/_authenticated/_agent/agent/customers/$id/edit'
       path: '/agent/customers/$id/edit'
@@ -179,6 +193,7 @@ export const routeTree = rootRoute.addChildren({
       AuthenticatedAgentAgentDashboardRoute,
       AuthenticatedAgentAgentAccountsAddRoute,
       AuthenticatedAgentAgentCustomersAddRoute,
+      AuthenticatedAgentAgentAccountsIdEditRoute,
       AuthenticatedAgentAgentCustomersIdEditRoute,
     }),
     AuthenticatedCustomerRoute: AuthenticatedCustomerRoute.addChildren({
@@ -222,6 +237,7 @@ export const routeTree = rootRoute.addChildren({
         "/_authenticated/_agent/agent/dashboard",
         "/_authenticated/_agent/agent/accounts/add",
         "/_authenticated/_agent/agent/customers/add",
+        "/_authenticated/_agent/agent/accounts/$id/edit",
         "/_authenticated/_agent/agent/customers/$id/edit"
       ]
     },
@@ -251,6 +267,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_authenticated/_agent/agent/customers/add": {
       "filePath": "_authenticated/_agent/agent/customers/add.tsx",
+      "parent": "/_authenticated/_agent"
+    },
+    "/_authenticated/_agent/agent/accounts/$id/edit": {
+      "filePath": "_authenticated/_agent/agent/accounts/$id/edit.tsx",
       "parent": "/_authenticated/_agent"
     },
     "/_authenticated/_agent/agent/customers/$id/edit": {

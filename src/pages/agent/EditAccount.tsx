@@ -11,7 +11,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import accountValidation from "@/schemas/accountValidation";
+import { editAccoutValidation } from "@/schemas/accountValidation";
 import {
   Select,
   SelectContent,
@@ -19,47 +19,67 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCustomers } from "@/hooks/useGetCustomers";
-import { TCustomerData } from "@/types/customer.types";
+
 import AccountServices from "@/api/account";
 import toast from "react-hot-toast";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouterState, HistoryState } from "@tanstack/react-router";
+import { TAddAccount } from "@/types/account.types";
 
-function AddAccount() {
+function EditAccount() {
+  const state = useRouterState({ select: (s) => s.location.state }) || null;
+  const isEmptyObject = (obj: HistoryState) => {
+    return Object.keys(obj).length === 0;
+  };
+
+  return (
+    <>
+      {isEmptyObject(state) ? (
+        <div className="mt-20 p-4">
+          Un problem est servenue, si voulez changer les informations d'un client veuillez le
+          chercher sur le tablea du bord est selectioner pour le modifer;
+        </div>
+      ) : (
+        <EditForm state={state} />
+      )}
+    </>
+  );
+}
+
+export default EditAccount;
+
+type TEditFormProps = {
+  state: {
+    account: TAddAccount;
+    key: string;
+  };
+};
+
+function EditForm({ state }: TEditFormProps) {
+  const { account } = state;
   const navigate = useNavigate();
-  const form = useForm<z.infer<typeof accountValidation>>({
-    resolver: zodResolver(accountValidation),
+  const { iban, balance, status } = account;
+  const form = useForm<z.infer<typeof editAccoutValidation>>({
+    resolver: zodResolver(editAccoutValidation),
     defaultValues: {
-      iban: "",
-      balance: 0,
+      iban,
+      balance,
+      status,
     },
   });
 
-  const { data, isPending } = useCustomers();
-  const customers = data || [];
-  const identityNumberSeleted = form.watch("identityNumber");
-  const getSelectedCutomer: TCustomerData =
-    customers.find(
-      (customer: TCustomerData) => customer.identityNumber === identityNumberSeleted,
-    ) || {};
-  const selectedCustomerId = getSelectedCutomer.id;
-
-  async function onSubmit(values: z.infer<typeof accountValidation>) {
+  async function onSubmit(values: z.infer<typeof editAccoutValidation>) {
+    console.log("🚀 ~ onSubmit ~ values:", values);
     const data = {
       ...values,
-      balance: Number(values.balance),
-      customerId: Number(selectedCustomerId),
+      balance: Number(balance),
+      id: account.id,
     };
-    const res = await AccountServices.addAccount(data);
-    if (res.status === 500 || res.status === 400) {
-      const test: string = "Duplicate entry";
-      if (res.message.includes(test)) {
-        toast.error("l'email ou le numéro d'identité existent déja sur la base des données");
-      } else {
-        toast.error("Une erreur est survenue lors de la création de nouveau utilisateur, ressayer");
-      }
+
+    const res = await AccountServices.updateAccount(data);
+    if (res === 500) {
+      toast.error("Une erreur est survenue lors de la modifaction du compte, ressayer");
     } else {
-      toast.success("client ajouter avec succes");
+      toast.success("client modifier avec succes");
       setTimeout(() => {
         navigate({ to: "/agent/dashboard" });
       }, 1000);
@@ -70,36 +90,26 @@ function AddAccount() {
     <main className="h-screen w-full flex justify-center items-center">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-6/12 space-y-4">
-          <FormField
+          {/* <FormField
             control={form.control}
             name="identityNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>N° d'indentité</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} defaultValue={field.value} disabled>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Selectionner le client " />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {isPending ? (
-                      <p>Chargement...</p>
-                    ) : customers && customers.length > 0 ? (
-                      customers.map((customer: TCustomerData, index: number) => (
-                        <SelectItem key={index} value={customer.identityNumber}>
-                          {customer.identityNumber}
-                        </SelectItem>
-                      ))
-                    ) : (
-                      <p>Aucun client</p>
-                    )}
+                    <SelectItem value={field.value}>{field.value}</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <FormField
             control={form.control}
             name="iban"
@@ -107,7 +117,7 @@ function AddAccount() {
               <FormItem>
                 <FormLabel>RIB</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -153,11 +163,9 @@ function AddAccount() {
               </FormItem>
             )}
           />
-          <Button type="submit">Créer</Button>
+          <Button type="submit">Modifier</Button>
         </form>
       </Form>
     </main>
   );
 }
-
-export default AddAccount;

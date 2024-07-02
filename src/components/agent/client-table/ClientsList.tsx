@@ -6,7 +6,6 @@ import { useCustomers } from "@/hooks/useGetCustomers";
 function ClientsList() {
   const { data, isPending, error, isError } = useCustomers();
   const customersList: TCustomerData[] = data || [];
-  console.log("🚀 ~ ClientsList ~ data:", data);
 
   if (isError) return <div>Error: {error?.message}</div>;
 

@@ -25,6 +25,8 @@ import { useState } from "react";
 import Modal from "../../Modal";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
+import { Input } from "@/components/ui/input";
+import useAccountDeletion from "@/hooks/useAccountDeletion";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -62,26 +64,25 @@ export function DataTable<TData, TValue>({
     enableMultiRowSelection: false,
   });
 
-  // const getId = () => {
-  //   const keys = Object.keys(rowSelection);
-  //   return keys.length > 0 ? Number(keys[0]) : null;
-  // };
+  const getId = () => {
+    const keys = Object.keys(rowSelection);
+    return keys.length > 0 ? Number(keys[0]) : null;
+  };
 
-  // const deleteCustomerMutation = useCustomerDeletion(getId, () => setRowSelection({}));
-
-  // // get the customer from data with the id returned form getId()
-  // const customer = data.find((customer) => customer.id === getId());
-  // const customerId: string = getId()?.toString() || "";
+  const selectedId = getId();
+  const deleteAccountMutation = useAccountDeletion(selectedId, () => setRowSelection({}));
+  const account = data.find((element) => element.id === selectedId) || data[0];
+  console.log("🚀 ~ account:", account);
 
   return (
     <div className="w-full">
       <div className="flex flex-col lg:flex-row items-center py-4 justify-between">
-        {/* <Input
-            placeholder="Filter emails..."
-            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-            onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)}
-            className="max-w-sm"
-          /> */}
+        <Input
+          placeholder="Filter les rib..."
+          value={(table.getColumn("iban")?.getFilterValue() as string) ?? ""}
+          onChange={(event) => table.getColumn("iban")?.setFilterValue(event.target.value)}
+          className="max-w-sm"
+        />
         <div className="flex gap-2">
           <AnimatePresence mode="wait">
             {Object.keys(rowSelection).length !== 0 && (
@@ -92,7 +93,12 @@ export function DataTable<TData, TValue>({
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Link className="flex bg-primary hover:bg-blue-800 text-white h-full p-2 lg:px-4 rounded-md items-center">
+                  <Link
+                    to="/agent/accounts/$id/edit"
+                    params={{ id: selectedId }}
+                    state={{ account: account }}
+                    className="flex bg-primary hover:bg-blue-800 text-white h-full p-2 lg:px-4 rounded-md items-center"
+                  >
                     modifier
                   </Link>
                 </motion.div>
@@ -106,7 +112,12 @@ export function DataTable<TData, TValue>({
                     title="supprimer"
                     dialogTitle="Est ce que vous êtes sûre de vouloir supprimer?"
                   >
-                    <Button className=" bg-red-400 hover:bg-red-600">Confirmer</Button>
+                    <Button
+                      className=" bg-red-400 hover:bg-red-600"
+                      onClick={deleteAccountMutation.handleDelete}
+                    >
+                      Confirmer
+                    </Button>
                   </Modal>
                 </motion.div>
               </>

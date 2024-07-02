@@ -237,7 +237,7 @@ const EditForm = ({ state }: TEditFormProps) => {
           />
 
           <Button className="w-full" type="submit">
-            Soumettre
+            Modifier
           </Button>
         </form>
       </Form>
