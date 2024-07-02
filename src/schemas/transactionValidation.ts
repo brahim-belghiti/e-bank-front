@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const accountValidation = z
+const transactiontValidation = z
   .object({
     iban: z.string({ required_error: "Le rib est requis" }).readonly(),
     motif: z.string({ required_error: "Le motif est requis" }),
@@ -17,4 +17,4 @@ const accountValidation = z
   })
   .required();
 
-export default accountValidation;
+export default transactiontValidation;

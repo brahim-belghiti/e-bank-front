@@ -11,7 +11,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { editAccoutValidation } from "@/schemas/accountValidation";
+import editAccoutValidation from "@/schemas/editAccountValidation";
 import {
   Select,
   SelectContent,

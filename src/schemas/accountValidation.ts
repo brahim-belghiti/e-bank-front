@@ -7,10 +7,4 @@ const accountValidation = z.object({
   balance: z.number(),
 });
 
-const editAccoutValidation = z.object({
-  iban: z.string().readonly(),
-  status: z.enum(["ACTIVATED", "CREATED", "SUSPENDED"]),
-  balance: z.number(),
-});
-
-export { accountValidation, editAccoutValidation };
+export default accountValidation;
