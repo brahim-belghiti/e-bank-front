@@ -6,6 +6,7 @@ import { TAccountData } from "@/types/account.types";
 function AccountsList() {
   const { data, isPending, isError } = useAccounts();
   const accountsList: TAccountData[] = data || [];
+  console.log("🚀 ~ AccountsList ~ accountsList:", accountsList);
 
   if (isError) return <div>Désole, lors de la tentative de récupération de la ressource. </div>;
 

@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { TCustomerData } from "@/types/customer.types";
 import { formatDate } from "@/lib/helpers";
+import { Separator } from "@/components/ui/separator";
 
 const EditCustomer = () => {
   const state = useRouterState({ select: (s) => s.location.state }) || null;
@@ -55,7 +56,8 @@ type TEditFormProps = {
 const EditForm = ({ state }: TEditFormProps) => {
   const { customer } = state;
   const navigate = useNavigate();
-  const { firstname, lastname, identityNumber, dateOfBirth, address, email } = customer;
+  const { firstname, lastname, identityNumber, dateOfBirth, address, email, password, username } =
+    customer;
   const form = useForm<z.infer<typeof customerValidation>>({
     resolver: zodResolver(customerValidation),
     defaultValues: {
@@ -64,6 +66,8 @@ const EditForm = ({ state }: TEditFormProps) => {
       identityNumber,
       address,
       email,
+      password,
+      username,
       dateOfBirth: new Date(dateOfBirth),
     },
   });
@@ -71,11 +75,6 @@ const EditForm = ({ state }: TEditFormProps) => {
   async function onSubmit(values: z.infer<typeof customerValidation>) {
     const data = {
       ...values,
-      phoneNumber: "06666666",
-      username: "ken",
-      password: "12345678",
-      city: "rabat",
-      codePostal: "12000",
       dateOfBirth: formatDate(values.dateOfBirth),
       id: customer.id,
     };
@@ -92,7 +91,7 @@ const EditForm = ({ state }: TEditFormProps) => {
   }
 
   return (
-    <main className="h-screen w-full flex justify-center items-center">
+    <main className="h-full w-full flex justify-center items-center mt-8 py-8">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="w-full grid grid-cols-2 gap-4 items-center">
@@ -195,12 +194,40 @@ const EditForm = ({ state }: TEditFormProps) => {
               </FormItem>
             )}
           />
+          <Separator />
+
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>L'address email</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Le username</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Le mot de passe</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>

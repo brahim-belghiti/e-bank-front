@@ -45,8 +45,18 @@ const customerValidation = z.object({
     .max(50, {
       message: "Adresse e-mail ne doit pas depasser 50 caractères",
     }),
+  username: z.string({
+    required_error: "Le username est requise",
+  }),
 
   dateOfBirth: z.date({ required_error: "La date de naissance est requise" }),
+  password: z
+    .string({
+      required_error: " le mot de passe est obligatoire",
+    })
+    .min(8, {
+      message: "le mot de passe ne doit pas etre mois de 8 caracteres",
+    }),
 });
 
 export { customerValidation };

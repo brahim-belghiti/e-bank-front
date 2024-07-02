@@ -47,6 +47,7 @@ export default class CustomerServices {
   }
 
   static async updateCustomer(customer: TCustomerData) {
+    console.log("🚀 ~ CustomerServices ~ updateCustomer ~ customer:", customer);
     try {
       const response = await fetch(`${CustomerServices.API_URL}/api/customers/${customer.id}`, {
         method: "PUT",

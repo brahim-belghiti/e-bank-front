@@ -23,6 +23,10 @@ type TCustomerData = {
   lastname: string;
   email: string;
   identityNumber: string;
+  dateOfBirth: string;
+  address: string;
+  username: string;
+  password: string;
 };
 
 type TAddNewCustomer = {
@@ -32,6 +36,8 @@ type TAddNewCustomer = {
   dateOfBirth: string;
   address: string;
   email: string;
+  username: string;
+  password: string;
 };
 
 export type { TCustomerData, TAddNewCustomer };
