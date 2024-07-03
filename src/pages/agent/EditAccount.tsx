@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 
 import AccountServices from "@/api/account";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate, useRouterState, HistoryState } from "@tanstack/react-router";
 import { TAddAccount } from "@/types/account.types";
 
@@ -166,6 +166,7 @@ function EditForm({ state }: TEditFormProps) {
           <Button type="submit">Modifier</Button>
         </form>
       </Form>
+      <Toaster />
     </main>
   );
 }

@@ -22,7 +22,7 @@ import {
 import { useCustomers } from "@/hooks/useGetCustomers";
 import { TCustomerData } from "@/types/customer.types";
 import AccountServices from "@/api/account";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "@tanstack/react-router";
 
 function AddAccount() {
@@ -156,6 +156,7 @@ function AddAccount() {
           <Button type="submit">Créer</Button>
         </form>
       </Form>
+      <Toaster />
     </main>
   );
 }

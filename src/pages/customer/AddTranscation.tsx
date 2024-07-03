@@ -30,7 +30,7 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { fr } from "date-fns/locale";
 import TransactionServices from "@/api/transaction";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "@tanstack/react-router";
 import { formatDate } from "@/lib/helpers";
 
@@ -81,7 +81,12 @@ export const AddTranscation = () => {
     };
     const res = await TransactionServices.addTransaction(data);
     if (res.status === 500 || res.status === 400) {
-      toast.error("Une erreur est survenue, ressayer");
+      const test: string = "InsufficientFundsException";
+      if (res.trace.includes(test)) {
+        toast.error(" Source account does not have sufficient funds");
+      } else {
+        toast.error("Une erreur est survenue lors d'ajout de la transaction, ressayer");
+      }
     } else {
       toast.success("transaction ajouter avec succes");
       setTimeout(() => {
@@ -232,6 +237,7 @@ export const AddTranscation = () => {
           <Button type="submit">Créer</Button>
         </form>
       </Form>
+      <Toaster />
     </main>
   );
 };
