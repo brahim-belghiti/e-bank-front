@@ -1,5 +1,5 @@
 type TAccountData = {
-  id: string;
+  id: number;
   activated: boolean;
   balance: number;
   status: "CREATED" | "ACTIVATED" | "SUSPENDED";

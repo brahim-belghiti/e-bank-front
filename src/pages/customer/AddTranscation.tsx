@@ -22,18 +22,72 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { TAccountData } from "@/types/account.types";
 import { useAccounts } from "@/hooks/useGetAccounts";
+import { useMemo } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import { fr } from "date-fns/locale";
+import TransactionServices from "@/api/transaction";
+import toast from "react-hot-toast";
+import { useNavigate } from "@tanstack/react-router";
+import { formatDate } from "@/lib/helpers";
 
 export const AddTranscation = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof transactionValidation>>({
     resolver: zodResolver(transactionValidation),
-    defaultValues: {},
+    defaultValues: {
+      amount: 0,
+      source: "",
+      motif: "",
+      target: "",
+      typeOperation: "DEBIT",
+      dateOperation: new Date(),
+    },
   });
 
-  const { data } = useAccounts();
-  const accountsList: TAccountData[] = data || [];
+  const { data, isPending } = useAccounts();
+  const getAccountsList = () => {
+    return (!isPending && data) || [];
+  };
+
+  const accountsList: TAccountData[] = useMemo(getAccountsList, [data, isPending]);
+
+  const doesExist = (iban: string) => {
+    return accountsList.some((account) => account.iban === iban);
+  };
+  const targetAccountIban = form.watch("target");
+  const SourceAccountIban = form.watch("source");
+
+  const targetAccountData =
+    doesExist(targetAccountIban) &&
+    accountsList.find((account) => account.iban === targetAccountIban);
+  const targetAccountId = targetAccountData?.id;
+
+  const sourcAccountData =
+    doesExist(SourceAccountIban) &&
+    accountsList.find((account) => account.iban === SourceAccountIban);
+  const sourceAccountId = sourcAccountData?.id;
 
   async function onSubmit(values: z.infer<typeof transactionValidation>) {
     console.log("🚀 ~ onSubmit ~ values:", values);
+    const data = {
+      ...values,
+      dateOperation: formatDate(values.dateOperation),
+      target: targetAccountId,
+      source: sourceAccountId,
+    };
+    const res = await TransactionServices.addTransaction(data);
+    if (res.status === 500 || res.status === 400) {
+      toast.error("Une erreur est survenue, ressayer");
+    } else {
+      toast.success("transaction ajouter avec succes");
+      setTimeout(() => {
+        navigate({ to: "/dashboard" });
+      }, 1000);
+    }
   }
   return (
     <main className="h-screen w-full flex justify-center items-center">
@@ -41,35 +95,28 @@ export const AddTranscation = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-8/12 space-y-4">
           <FormField
             control={form.control}
-            name="iban"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Le numéro du rib</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="accountId"
+            name="source"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Compte à débiter</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Choisissez le compte à débiter" />
+                      <SelectValue placeholder="Selectionner le client " />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {accountsList.map((account) => (
-                      <SelectItem key={account.id} value={account.id}>
-                        {account.iban}
-                      </SelectItem>
-                    ))}
+                    {isPending ? (
+                      <p>Chargement...</p>
+                    ) : accountsList && accountsList.length > 0 ? (
+                      accountsList.map((account: TAccountData) => (
+                        <SelectItem key={account.id} value={account.iban}>
+                          {account.iban}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <p>Aucun client</p>
+                    )}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -83,16 +130,20 @@ export const AddTranscation = () => {
               <FormItem>
                 <FormLabel>Le montant du virement</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" min={0} />
+                  <Input
+                    {...field}
+                    type="number"
+                    min={0}
+                    onChange={(value) => field.onChange(value.target.valueAsNumber)}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
-            name="ibanToCredit"
+            name="target"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Le rib du destinataire</FormLabel>
@@ -112,6 +163,68 @@ export const AddTranscation = () => {
                 <FormControl>
                   <Textarea {...field} />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="typeOperation"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>type d'operation</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue="DEBIT">
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Choisissez le compte à débiter" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="DEBIT">Débit</SelectItem>
+                    <SelectItem value="CREDIT">Crédit</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="dateOperation"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>La date de naissance</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-[240px] pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground",
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP", { locale: fr })
+                        ) : (
+                          <span>Choisissez une date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date: Date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                      initialFocus
+                      locale={fr}
+                    />
+                  </PopoverContent>
+                </Popover>
+                {/* <FormDescription>Your date of birth is used to calculate your age.</FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}

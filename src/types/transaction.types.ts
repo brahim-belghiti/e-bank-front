@@ -1,10 +1,11 @@
 type TTransactionData = {
-  id: string;
+  id: number;
   typeOperation: "Debit" | "Credit";
-  dateOperation: string;
+  dateOperation: Date;
   amount: number;
   motif: string;
-  account_id: string;
+  source: number;
+  target: number;
 };
 
 export type { TTransactionData };
