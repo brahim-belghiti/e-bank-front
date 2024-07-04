@@ -1,7 +1,7 @@
 type TTransactionData = {
   id: number;
-  typeOperation: "Debit" | "Credit";
-  dateOperation: Date;
+  typeOperation: "DEBIT" | "CREDIT";
+  dateOperation: string;
   amount: number;
   motif: string;
   source: number;

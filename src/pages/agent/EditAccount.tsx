@@ -68,7 +68,6 @@ function EditForm({ state }: TEditFormProps) {
   });
 
   async function onSubmit(values: z.infer<typeof editAccoutValidation>) {
-    console.log("🚀 ~ onSubmit ~ values:", values);
     const data = {
       ...values,
       balance: Number(balance),

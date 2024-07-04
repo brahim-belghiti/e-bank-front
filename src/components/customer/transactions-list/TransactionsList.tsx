@@ -2,7 +2,6 @@ import { DataTable } from "@/components/customer/transactions-list/data-table";
 import { columns } from "@/components/customer/transactions-list/columns";
 import { TTransactionData } from "@/types/transaction.types";
 import { useTransactions } from "@/hooks/useGetTransactions";
-// import { formatDate } from "@/lib/helpers";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
@@ -11,7 +10,11 @@ function TranscationList({ accountId }: { accountId: number }) {
   const transactionsList: TTransactionData[] = data || [];
 
   const transactions = transactionsList
-    .filter((transaction) => accountId === transaction.source || accountId === transaction.target)
+    .filter(
+      (transaction) =>
+        (accountId === transaction.source && transaction.typeOperation === "DEBIT") ||
+        (accountId === transaction.target && transaction.typeOperation === "CREDIT"),
+    )
     .map((transaction) => ({
       ...transaction,
       dateOperation: format(transaction.dateOperation, "PPP", { locale: fr }),

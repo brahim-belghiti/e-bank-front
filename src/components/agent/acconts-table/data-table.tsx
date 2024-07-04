@@ -72,7 +72,6 @@ export function DataTable<TData, TValue>({
   const selectedId = getId();
   const deleteAccountMutation = useAccountDeletion(selectedId, () => setRowSelection({}));
   const account = data.find((element) => element.id === selectedId) || data[0];
-  console.log("🚀 ~ account:", account);
 
   return (
     <div className="w-full">

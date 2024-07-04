@@ -23,12 +23,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { TAccountData } from "@/types/account.types";
 import { useAccounts } from "@/hooks/useGetAccounts";
 import { useMemo } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
-import { fr } from "date-fns/locale";
 import TransactionServices from "@/api/transaction";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "@tanstack/react-router";
@@ -72,18 +66,20 @@ export const AddTranscation = () => {
   const sourceAccountId = sourcAccountData?.id;
 
   async function onSubmit(values: z.infer<typeof transactionValidation>) {
-    console.log("🚀 ~ onSubmit ~ values:", values);
     const data = {
       ...values,
-      dateOperation: formatDate(values.dateOperation),
+      dateOperation: formatDate(new Date()),
       target: targetAccountId,
       source: sourceAccountId,
     };
     const res = await TransactionServices.addTransaction(data);
     if (res.status === 500 || res.status === 400) {
       const test: string = "InsufficientFundsException";
+      const moneytoOneself: string = "you can't send money to yourself";
       if (res.trace.includes(test)) {
         toast.error(" Source account does not have sufficient funds");
+      } else if (res.trace.includes(moneytoOneself)) {
+        toast.error("you can't send money to yourself");
       } else {
         toast.error("Une erreur est survenue lors d'ajout de la transaction, ressayer");
       }
@@ -186,50 +182,9 @@ export const AddTranscation = () => {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="DEBIT">Débit</SelectItem>
-                    <SelectItem value="CREDIT">Crédit</SelectItem>
+                    {/* <SelectItem value="CREDIT">Crédit</SelectItem> */}
                   </SelectContent>
                 </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="dateOperation"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>La date de naissance</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground",
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP", { locale: fr })
-                        ) : (
-                          <span>Choisissez une date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date: Date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
-                      initialFocus
-                      locale={fr}
-                    />
-                  </PopoverContent>
-                </Popover>
-                {/* <FormDescription>Your date of birth is used to calculate your age.</FormDescription> */}
                 <FormMessage />
               </FormItem>
             )}

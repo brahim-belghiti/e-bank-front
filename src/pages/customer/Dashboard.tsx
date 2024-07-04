@@ -11,7 +11,7 @@ import { TAccountData } from "@/types/account.types";
 import { useEffect, useMemo, useState } from "react";
 
 const Dashboard = () => {
-  const { data, isPending } = useAccounts();
+  const { data, isPending, isError } = useAccounts();
 
   const getAccountsList = () => {
     return data || [];
@@ -28,6 +28,9 @@ const Dashboard = () => {
     return accountIban === account.iban;
   });
 
+  if (isError)
+    return <div>Désole: Erreur lors de la tentative de récupération de la ressource.</div>;
+
   return (
     <main className="mt-16 p-4 px-12 w-full h-full flex flex-col gap-8">
       <section className="flex flex-col gap-2">
@@ -42,12 +45,14 @@ const Dashboard = () => {
             <SelectContent>
               {isPending ? (
                 <p className="animate">...</p>
-              ) : (
+              ) : accountsList.length > 1 ? (
                 accountsList.map((account: TAccountData) => (
                   <SelectItem key={account.id} value={account.iban}>
                     {account.iban}
                   </SelectItem>
                 ))
+              ) : (
+                <p className="font-thin text-sm">Aucun compte créé</p>
               )}
             </SelectContent>
           </Select>
@@ -64,11 +69,7 @@ const Dashboard = () => {
         </div>
       </section>
       <section>
-        {isPending || account == null ? (
-          <p className="animate">...</p>
-        ) : (
-          <TranscationList accountId={account.id} />
-        )}
+        <TranscationList accountId={account == null ? 0 : account.id} />
       </section>
     </main>
   );
